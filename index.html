@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore the world of Westeros: its houses, characters, and rich history. Dive into the Game of Thrones universe with stunning visuals and content.">
   <title>Game of Thrones Fan Page</title>
   <style>
     /* Global Styles */
@@ -17,6 +18,7 @@
       color: #ddd;
       background-color: #2b2b2b;
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
     /* Header and Navigation */
@@ -33,20 +35,30 @@
     }
 
     header h1 {
-      font-size: 3rem;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      font-size: 3.5rem;
+      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
       margin-bottom: 10px;
+      animation: fadeIn 2s ease-in-out;
     }
 
     header p {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     nav {
+      position: sticky;
+      top: 0;
       display: flex;
       justify-content: center;
       padding: 1rem 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
     }
 
     nav a {
@@ -54,11 +66,12 @@
       text-decoration: none;
       margin: 0 15px;
       font-size: 1.1rem;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.3s;
     }
 
     nav a:hover {
       color: #ffa500;
+      transform: scale(1.1);
     }
 
     /* Main Content */
@@ -69,14 +82,24 @@
     }
 
     .content h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: #ffa500;
       margin-bottom: 1rem;
       text-align: center;
+      position: relative;
+    }
+
+    .content h2::after {
+      content: '';
+      width: 50px;
+      height: 3px;
+      background: #ffa500;
+      display: block;
+      margin: 0.5rem auto 1rem;
     }
 
     .content p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 1rem;
       text-align: justify;
     }
@@ -85,7 +108,7 @@
     footer {
       padding: 1rem;
       text-align: center;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.85);
       color: #ddd;
       font-size: 0.9rem;
       margin-top: 2rem;
@@ -93,6 +116,30 @@
 
     footer p {
       margin-top: 0.5rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      nav a {
+        font-size: 0.9rem;
+        margin: 0 10px;
+      }
+
+      .content h2 {
+        font-size: 2rem;
+      }
+
+      .content p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -139,7 +186,7 @@
 
   <!-- Footer Section -->
   <footer>
-    <p>&copy; 2023 Game of Thrones Fan Page | Made with ❤️ for all GoT fans</p>
+    <p>&copy; 2024 Game of Thrones Fan Page | Made with ❤️ for all GoT fans</p>
   </footer>
 
 </body>
