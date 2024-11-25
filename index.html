@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore the world of Westeros: its houses, characters, and rich history. Dive into the Game of Thrones universe with stunning visuals and content.">
   <title>Game of Thrones Fan Page</title>
   <style>
     /* Global Styles */
@@ -18,7 +17,17 @@
       color: #ddd;
       background-color: #2b2b2b;
       line-height: 1.6;
-      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section {
+      scroll-snap-align: start;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     /* Header and Navigation */
@@ -26,7 +35,7 @@
       background-image: url('https://wallpapers.com/images/hd/cool-hd-logo-in-game-of-thrones-qhdelrxg3d2ftb1a.webp');
       background-size: cover;
       background-position: center;
-      height: 70vh;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,20 +44,15 @@
     }
 
     header h1 {
-      font-size: 3.5rem;
-      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
-      margin-bottom: 10px;
+      font-size: 4rem;
+      text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.9);
       animation: fadeIn 2s ease-in-out;
     }
 
     header p {
       font-size: 1.5rem;
+      margin-top: 1rem;
       animation: fadeIn 2.5s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     nav {
@@ -59,6 +63,13 @@
       padding: 1rem 0;
       background: rgba(0, 0, 0, 0.85);
       z-index: 1000;
+    }
+
+    nav img {
+      cursor: pointer;
+      height: 50px;
+      margin-right: auto;
+      margin-left: 10px;
     }
 
     nav a {
@@ -74,34 +85,10 @@
       transform: scale(1.1);
     }
 
-    /* Main Content */
-    .content {
-      padding: 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .content h2 {
-      font-size: 2.8rem;
-      color: #ffa500;
-      margin-bottom: 1rem;
-      text-align: center;
-      position: relative;
-    }
-
-    .content h2::after {
-      content: '';
-      width: 50px;
-      height: 3px;
-      background: #ffa500;
-      display: block;
-      margin: 0.5rem auto 1rem;
-    }
-
-    .content p {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      text-align: justify;
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Footer */
@@ -121,7 +108,7 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       header h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
       }
 
       header p {
@@ -131,14 +118,6 @@
       nav a {
         font-size: 0.9rem;
         margin: 0 10px;
-      }
-
-      .content h2 {
-        font-size: 2rem;
-      }
-
-      .content p {
-        font-size: 1rem;
       }
     }
   </style>
@@ -155,32 +134,22 @@
 
   <!-- Navigation Bar -->
   <nav>
-    <a href="#houses">Houses</a>
-    <a href="#characters">Characters</a>
-    <a href="#map">Map of Westeros</a>
-    <a href="#history">History</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Game_of_Thrones_2011_logo.svg" alt="GoT Logo" onclick="redirectToHome()">
+    <a href="houses.html">Houses</a>
+    <a href="characters.html">Characters</a>
+    <a href="map.html">Map</a>
+    <a href="history.html">History</a>
   </nav>
 
   <!-- Main Content -->
-  <div class="content">
-    <section id="houses">
-      <h2>Great Houses of Westeros</h2>
-      <p>The Seven Kingdoms of Westeros are divided among several great houses, each vying for power and control. House Stark, House Lannister, House Targaryen, and House Baratheon are among the most powerful.</p>
+  <div>
+    <section>
+      <h2>Explore the World of Westeros</h2>
+      <p>Dive into the epic universe of Game of Thrones. Navigate through the Houses, characters, maps, and the rich history of Westeros.</p>
     </section>
-
-    <section id="characters">
-      <h2>Famous Characters</h2>
-      <p>From Eddard Stark and Jon Snow to Daenerys Targaryen and Tyrion Lannister, the series is filled with unforgettable characters who shape the fate of Westeros and beyond.</p>
-    </section>
-
-    <section id="map">
-      <h2>Map of Westeros</h2>
-      <p>Westeros is a vast continent with diverse landscapes and climates. From the icy lands beyond the Wall to the scorching deserts of Dorne, the map of Westeros is as diverse as its inhabitants.</p>
-    </section>
-
-    <section id="history">
-      <h2>History of Westeros</h2>
-      <p>The history of Westeros spans thousands of years, with ancient legends and battles that have shaped the present. From the Targaryen conquest to Robert's Rebellion, each era has left its mark on the land.</p>
+    <section>
+      <h2>Discover the Great Houses</h2>
+      <p>Unearth the power struggles and alliances that define the Seven Kingdoms.</p>
     </section>
   </div>
 
@@ -189,5 +158,10 @@
     <p>&copy; 2024 Game of Thrones Fan Page | Made with ❤️ for all GoT fans</p>
   </footer>
 
+  <script>
+    function redirectToHome() {
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>
