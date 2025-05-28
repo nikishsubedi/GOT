@@ -1,42 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Navigation links
-    const navHome = document.querySelector('header nav ul li a[href="#"]'); // Assuming Home is the first link
-    const navProducts = document.querySelector('header nav ul li a[href="#Products"]'); // Assuming Products is the second link
-    const navCart = document.querySelector('header nav ul li a[href="#Cart"]');
-    const navAbout = document.querySelector('header nav ul li a[href="#About Us"]');
-    const navContact = document.querySelector('header nav ul li a[href="#Contact"]');
-
     // Content sections
+    const homeSection = document.getElementById('home-section');
     const productListingSection = document.getElementById('product-listing');
     const sidebarSection = document.getElementById('sidebar');
     const shoppingCartSection = document.getElementById('shopping-cart');
     const aboutUsSection = document.getElementById('about-us');
     const contactDetailsSection = document.getElementById('contact-details');
+    const paymentSection = document.getElementById('payment-section');
 
     // Helper function to hide all content sections
     function hideAllSections() {
-        productListingSection.classList.add('hidden');
-        sidebarSection.classList.add('hidden');
-        shoppingCartSection.classList.add('hidden');
-        aboutUsSection.classList.add('hidden');
-        contactDetailsSection.classList.add('hidden');
+        const sections = [homeSection, productListingSection, sidebarSection, shoppingCartSection, aboutUsSection, contactDetailsSection, paymentSection];
+        sections.forEach(section => {
+            if (section) section.classList.add('hidden');
+        });
     }
 
-    // Helper function to show a specific section
-    // Note: For products/home, sidebar needs to be shown explicitly
-    function showSection(sectionId) {
+    // Helper function to show specific sections
+    function showHomeSection() {
         hideAllSections();
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.classList.remove('hidden');
-        }
+        if (homeSection) homeSection.classList.remove('hidden');
     }
 
-    // Initial view: Show Products and Sidebar, hide others
-    // (Handled by navigation setup below)
+    function showProductsSection() {
+        hideAllSections();
+        if (productListingSection) productListingSection.classList.remove('hidden');
+        if (sidebarSection) sidebarSection.classList.remove('hidden');
+    }
 
-    // Cart array
-    let cart = [];
+    function showCartSection() {
+        hideAllSections();
+        if (shoppingCartSection) shoppingCartSection.classList.remove('hidden');
+        renderCart();
+    }
+
+    function showAboutSection() {
+        hideAllSections();
+        if (aboutUsSection) aboutUsSection.classList.remove('hidden');
+    }
+
+    function showContactSection() {
+        hideAllSections();
+        if (contactDetailsSection) contactDetailsSection.classList.remove('hidden');
+    }
+
+    function showPaymentSection() {
+        hideAllSections();
+        if (paymentSection) paymentSection.classList.remove('hidden');
+    }
+
+    // Cart array with localStorage persistence
+    let cart = JSON.parse(localStorage.getItem('techConnectCart') || '[]');
+
+    // Save cart to localStorage
+    function saveCart() {
+        localStorage.setItem('techConnectCart', JSON.stringify(cart));
+        updateCartBadge();
+    }
 
     // DOM elements for cart
     const cartItemsContainer = document.getElementById('cart-items');
@@ -53,9 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // DOM elements for checkout
     const checkoutBtn = document.getElementById('checkout-btn');
-    const paymentSection = document.getElementById('payment-section');
     const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
     const backToCartBtn = document.getElementById('back-to-cart-btn');
+
+    // Home page buttons
+    const browseProductsBtn = document.getElementById('browse-products-btn');
+    const contactUsBtn = document.getElementById('contact-us-btn');
+
+    // Payment method elements
+    const codRadio = document.getElementById('cod');
+    const imepayRadio = document.getElementById('imepay');
+    const imepayQrSection = document.getElementById('imepay-qr-section');
+    const paymentAmountSpan = document.getElementById('payment-amount');
 
 
     // Sample Laptop Data
@@ -64,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 1,
             name: "Dell XPS 15",
             price: 180000,
-            image: "https://via.placeholder.com/200x150.png?text=Dell+XPS+15",
+            image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=400&h=300&fit=crop&auto=format",
             description: "Powerful and sleek laptop for professionals.",
             specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "Intel Core i7" }
         },
@@ -72,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 2,
             name: "MacBook Pro 16",
             price: 250000,
-            image: "https://via.placeholder.com/200x150.png?text=MacBook+Pro+16",
+            image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop&auto=format",
             description: "Top-tier performance for creative workflows.",
             specifications: { RAM: "16GB", Storage: "1TB SSD", Processor: "Apple M1 Pro" }
         },
@@ -80,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 3,
             name: "HP Spectre x360",
             price: 165000,
-            image: "https://via.placeholder.com/200x150.png?text=HP+Spectre+x360",
+            image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=300&fit=crop&auto=format",
             description: "Versatile 2-in-1 laptop with a stunning display.",
             specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "Intel Core i7" }
         },
@@ -88,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 4,
             name: "Lenovo IdeaPad Slim 5",
             price: 85000,
-            image: "https://via.placeholder.com/200x150.png?text=Lenovo+IdeaPad",
+            image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&auto=format",
             description: "Affordable and reliable for everyday use.",
             specifications: { RAM: "8GB", Storage: "256GB SSD", Processor: "AMD Ryzen 5" }
         },
@@ -96,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 5,
             name: "Asus ROG Strix G15",
             price: 220000,
-            image: "https://via.placeholder.com/200x150.png?text=Asus+ROG+Strix",
+            image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop&auto=format",
             description: "High-performance gaming laptop.",
             specifications: { RAM: "16GB", Storage: "1TB SSD", Processor: "AMD Ryzen 9", Graphics: "NVIDIA RTX 3070" }
         },
@@ -104,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 6,
             name: "Acer Swift 3",
             price: 78000,
-            image: "https://via.placeholder.com/200x150.png?text=Acer+Swift+3",
+            image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=300&fit=crop&auto=format",
             description: "Lightweight and portable for students.",
             specifications: { RAM: "8GB", Storage: "512GB SSD", Processor: "Intel Core i5" }
         }
@@ -131,9 +160,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsToRender.forEach(laptop => {
             const productItem = document.createElement('div');
-            productItem.className = 'product-item'; // For styling individual product items
+            productItem.className = 'product-item';
+            
+            // Create image with error handling
+            const imgElement = document.createElement('img');
+            imgElement.src = laptop.image;
+            imgElement.alt = laptop.name;
+            imgElement.style.cssText = 'width:100%; max-width:200px; height:auto; margin-bottom:10px;';
+            imgElement.loading = 'lazy'; // Add lazy loading
+            
+            // Add error handling for images
+            imgElement.onerror = function() {
+                this.src = 'https://via.placeholder.com/400x300/cccccc/666666?text=' + encodeURIComponent(laptop.name);
+                this.alt = laptop.name + ' (Image not available)';
+            };
+            
+            // Add loading indicator
+            imgElement.onload = function() {
+                this.style.opacity = '1';
+            };
+            imgElement.style.opacity = '0.7';
+            imgElement.style.transition = 'opacity 0.3s ease';
+            
             productItem.innerHTML = `
-                <img src="${laptop.image}" alt="${laptop.name}" style="width:100%; max-width:200px; height:auto; margin-bottom:10px;">
+                <div class="product-image-container" style="position: relative; margin-bottom: 10px;">
+                    ${imgElement.outerHTML}
+                </div>
                 <h3>${laptop.name}</h3>
                 <p class="price">NPR ${laptop.price.toLocaleString()}</p>
                 <p class="description">${laptop.description}</p>
@@ -186,18 +238,40 @@ document.addEventListener('DOMContentLoaded', () => {
         if (productToAdd) {
             const existingCartItem = cart.find(item => item.id === productIdNum);
             if (existingCartItem) {
-                // For now, just log that it's already there. Future: increment quantity.
-                console.log(`Product "${productToAdd.name}" is already in the cart.`);
-                alert(`"${productToAdd.name}" is already in your cart!`);
+                existingCartItem.quantity += 1;
+                showNotification(`"${productToAdd.name}" quantity increased to ${existingCartItem.quantity}`, 'success', 2000);
             } else {
                 cart.push({...productToAdd, quantity: 1 }); // Add product with quantity 1
-                console.log(`Product "${productToAdd.name}" added to cart.`);
-                alert(`"${productToAdd.name}" has been added to your cart!`);
+                showNotification(`"${productToAdd.name}" added to cart!`, 'success', 2000);
             }
             console.log("Current cart:", cart);
             renderCart(); // Update cart display
+            saveCart(); // Save to localStorage and update badge
         } else {
             console.error(`Product with ID ${productIdNum} not found.`);
+            showNotification('Error adding product to cart', 'error');
+        }
+    }
+
+    // Update cart badge with item count
+    function updateCartBadge() {
+        const cartLink = document.querySelector('nav a[data-section="cart"]');
+        if (cartLink) {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Remove existing badge
+            const existingBadge = cartLink.querySelector('.cart-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            // Add new badge if there are items
+            if (totalItems > 0) {
+                const badge = document.createElement('span');
+                badge.className = 'cart-badge';
+                badge.textContent = totalItems;
+                cartLink.appendChild(badge);
+            }
         }
     }
 
@@ -222,8 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cartItemElement = document.createElement('div');
                 cartItemElement.className = 'cart-item'; // For styling
                 cartItemElement.innerHTML = `
-                    <span>${item.name} (Quantity: ${item.quantity})</span>
-                    <span>NPR ${item.price.toLocaleString()}</span>
+                    <span>${item.name} (x${item.quantity})</span>
+                    <span>NPR ${(item.price * item.quantity).toLocaleString()}</span>
                     <button class="remove-from-cart-btn" data-product-id="${item.id}">Remove</button>
                 `;
                 cartItemsContainer.appendChild(cartItemElement);
@@ -241,11 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (itemIndex > -1) {
             const removedItem = cart.splice(itemIndex, 1)[0]; // Remove item and get it
             console.log(`Product "${removedItem.name}" removed from cart.`);
-            alert(`"${removedItem.name}" has been removed from your cart.`);
+            showNotification(`"${removedItem.name}" removed from cart`, 'info', 2000);
         } else {
             console.log(`Product with ID ${productIdNum} not found in cart.`);
+            showNotification('Error removing product from cart', 'error');
         }
         renderCart(); // Update cart display
+        saveCart(); // Save to localStorage and update badge
     }
 
     // Event listener for "Add to Cart" buttons using event delegation
@@ -281,6 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
         applyPriceFilterBtn.addEventListener('click', filterProductsByPrice);
     }
 
+    // Enhanced search function with debouncing
+    const debouncedSearch = debounceSearch(searchProducts, 300);
+
     // Function to search products
     function searchProducts() {
         const query = searchInput.value.toLowerCase().trim();
@@ -293,55 +372,90 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchedLaptops = laptops.filter(laptop => {
             const nameMatch = laptop.name.toLowerCase().includes(query);
             const descriptionMatch = laptop.description.toLowerCase().includes(query);
-            // Optional: Extend to search specifications
-            // const specsMatch = Object.values(laptop.specifications).some(spec => 
-            //     String(spec).toLowerCase().includes(query)
-            // );
-            return nameMatch || descriptionMatch; // || specsMatch;
+            // Search specifications too
+            const specsMatch = Object.values(laptop.specifications).some(spec => 
+                String(spec).toLowerCase().includes(query)
+            );
+            return nameMatch || descriptionMatch || specsMatch;
         });
 
         renderProducts(searchedLaptops);
+        
+        // Show search results feedback
+        if (searchedLaptops.length === 0) {
+            showNotification(`No products found for "${query}". Try different keywords.`, 'info', 3000);
+        } else if (searchedLaptops.length < laptops.length) {
+            showNotification(`Found ${searchedLaptops.length} product(s) matching "${query}"`, 'info', 2000);
+        }
     }
 
-    // Event Listener for Search button
+    // Event Listener for Search button and real-time search
     if (searchBtn) {
         searchBtn.addEventListener('click', searchProducts);
+    }
+    
+    // Add real-time search as user types
+    if (searchInput) {
+        searchInput.addEventListener('input', debouncedSearch);
+        
+        // Add Enter key support
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchProducts();
+            }
+        });
+    }
+
+    // Function to calculate cart total
+    function calculateCartTotal() {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
 
     // Event Listener for "Proceed to Checkout" button
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', () => {
-            hideAllSections(); // Hide product listing, sidebar, cart, about, contact
-            if(paymentSection) paymentSection.classList.remove('hidden'); // Show payment section
-            // Note: Current hideAllSections also hides shoppingCartSection, which contains checkoutBtn.
-            // If paymentSection is considered part of the "main content" that should be hidden by hideAllSections,
-            // then we need to make sure paymentSection is also added to hideAllSections logic or handled separately.
-            // For now, explicitly showing paymentSection after hideAllSections works.
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            showPaymentSection();
+            if (paymentAmountSpan) paymentAmountSpan.textContent = calculateCartTotal().toLocaleString();
         });
     }
 
     // Event Listener for "Confirm Payment" button
     if (confirmPaymentBtn) {
         confirmPaymentBtn.addEventListener('click', () => {
+            const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            
             // Simulate payment
-            alert("Payment Successful! Thank you for your order.");
+            if (selectedPaymentMethod === 'cod') {
+                alert("Order Confirmed! Cash on Delivery selected. Our team will contact you soon.");
+            } else if (selectedPaymentMethod === 'imepay') {
+                alert("Payment Successful! IME Pay payment confirmed. Thank you for your order.");
+            }
 
             cart = []; // Clear the cart array
             renderCart(); // Update the cart display (will show empty cart and hide checkout button)
+            saveCart(); // Save empty cart to localStorage and update badge
 
             hideAllSections(); // Hide all sections including payment section
             if(paymentSection) paymentSection.classList.add('hidden'); // Ensure payment section is hidden
-            if(productListingSection) productListingSection.classList.remove('hidden'); // Show product listing
-            if(sidebarSection) sidebarSection.classList.remove('hidden'); // Show sidebar
+            if(homeSection) homeSection.classList.remove('hidden'); // Show home section
+            setActiveNavLink(navLinks.home); // Set home as active
         });
     }
 
     // Event Listener for "Back to Cart" button
     if (backToCartBtn) {
         backToCartBtn.addEventListener('click', () => {
+            hideAllSections();
             if(paymentSection) paymentSection.classList.add('hidden'); // Hide payment section
             if(shoppingCartSection) shoppingCartSection.classList.remove('hidden'); // Show cart section
+            setActiveNavLink(navLinks.cart); // Set cart as active nav link
             renderCart(); // Re-render cart to ensure it's up-to-date
+            updateCartBadge(); // Ensure cart badge is up-to-date
         });
     }
 
@@ -371,10 +485,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if(sidebarSection) sidebarSection.classList.remove('hidden');
     }
 
+    function showHomeSection() {
+        hideAllSections();
+        if(paymentSection) paymentSection.classList.add('hidden'); // Ensure payment is hidden
+        if(homeSection) homeSection.classList.remove('hidden');
+    }
+
     if (navLinks.home) {
         navLinks.home.addEventListener('click', (e) => {
             e.preventDefault();
-            showHomeOrProducts();
+            showHomeSection();
             setActiveNavLink(e.currentTarget);
         });
     }
@@ -418,9 +538,362 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Home page button event listeners
+    if (browseProductsBtn) {
+        browseProductsBtn.addEventListener('click', () => {
+            showHomeOrProducts();
+            setActiveNavLink(navLinks.products);
+        });
+    }
+
+    if (contactUsBtn) {
+        contactUsBtn.addEventListener('click', () => {
+            hideAllSections();
+            if(paymentSection) paymentSection.classList.add('hidden');
+            if(contactDetailsSection) contactDetailsSection.classList.remove('hidden');
+            setActiveNavLink(navLinks.contact);
+        });
+    }
+
+    // IME Pay payment method toggle functionality
+    if (imepayRadio && codRadio && imepayQrSection) {
+        imepayRadio.addEventListener('change', () => {
+            if (imepayRadio.checked) {
+                imepayQrSection.classList.remove('hidden');
+            }
+        });
+
+        codRadio.addEventListener('change', () => {
+            if (codRadio.checked) {
+                imepayQrSection.classList.add('hidden');
+            }
+        });
+    }
+
+    // Notification system for better user feedback
+    function showNotification(message, type = 'info', duration = 5000) {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        // Hide and remove notification
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, duration);
+    }
+
+    // Enhanced email sending with notifications
+    async function sendContactEmail(name, email, subject, message) {
+        // Show loading message
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        try {
+            // Method 1: Try using a free form service (Formsubmit.co - no signup required)
+            const response = await fetch('https://formsubmit.co/nikishsubedi1@gmail.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    subject: `TechConnect Nepal Contact: ${subject}`,
+                    message: message,
+                    _subject: `TechConnect Nepal Contact: ${subject}`,
+                    _captcha: 'false',
+                    _template: 'table'
+                })
+            });
+
+            if (response.ok) {
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                showNotification(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you soon.`, 'success');
+                return;
+            } else {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.log('Formsubmit failed:', error);
+            showNotification('Email service temporarily unavailable. Trying alternative methods...', 'info', 3000);
+        }
+
+        try {
+            // Method 2: Try backend PHP email if available
+            const response = await fetch('send_email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                })
+            });
+
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                showNotification(`Thank you, ${name}! Your message has been sent successfully.`, 'success');
+                return;
+            }
+        } catch (error) {
+            console.log('Backend email failed:', error);
+        }
+
+        try {
+            // Method 3: Try EmailJS if configured
+            if (typeof emailjs !== 'undefined') {
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    subject: subject,
+                    message: message,
+                    to_name: 'TechConnect Nepal',
+                    to_email: 'nikishsubedi1@gmail.com'
+                };
+
+                // Note: EmailJS requires service setup - this is a placeholder
+                // You would need to configure EmailJS with your service ID, template ID, and public key
+                console.log('EmailJS would send:', templateParams);
+            }
+        } catch (error) {
+            console.log('EmailJS failed:', error);
+        }
+
+        // Method 4: Enhanced mailto fallback with better user experience
+        enhancedMailtoFallback(name, email, subject, message);
+
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+
+    // Enhanced mailto fallback with better UX
+    function enhancedMailtoFallback(name, email, subject, message) {
+        // Create comprehensive email body
+        const emailBody = encodeURIComponent(`
+Dear TechConnect Nepal Team,
+
+Name: ${name}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+This message was sent from the TechConnect Nepal contact form.
+Website: ${window.location.href}
+Timestamp: ${new Date().toLocaleString()}
+        `);
+        
+        const mailtoLink = `mailto:nikishsubedi1@gmail.com?subject=${encodeURIComponent('TechConnect Nepal Contact: ' + subject)}&body=${emailBody}`;
+        
+        // Try to open email client
+        try {
+            window.open(mailtoLink, '_self');
+            
+            // Show enhanced confirmation with instructions
+            setTimeout(() => {
+                showNotification(`Email client opened! Please send the pre-filled message to complete your inquiry.`, 'info', 8000);
+            }, 1000);
+            
+        } catch (error) {
+            // If mailto fails, show manual instructions
+            showNotification(`Please email us manually at: nikishsubedi1@gmail.com with subject "TechConnect Nepal Contact: ${subject}"`, 'info', 10000);
+        }
+    }
+
+    // Add loading state management
+    function showLoading() {
+        const loader = document.createElement('div');
+        loader.id = 'page-loader';
+        loader.innerHTML = `
+            <div class="loader-content">
+                <div class="spinner"></div>
+                <p>Loading TechConnect Nepal...</p>
+            </div>
+        `;
+        document.body.appendChild(loader);
+    }
+
+    function hideLoading() {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 300);
+        }
+    }
+
+    // Add error boundary for better error handling
+    window.addEventListener('error', (event) => {
+        console.error('Global error:', event.error);
+        showNotification('Something went wrong. Please refresh the page.', 'error');
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        showNotification('A network error occurred. Please check your connection.', 'error');
+    });
+
+    // Enhanced product filtering with debounce
+    let searchTimeout;
+    function debounceSearch(func, delay) {
+        return function(...args) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Contact Form Handler with Multiple Email Service Fallbacks
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Get form data
+            const name = this.querySelector('#contact-name').value;
+            const email = this.querySelector('#contact-email').value;
+            const subject = this.querySelector('#contact-subject').value;
+            const message = this.querySelector('#contact-message').value;
+            
+            try {
+                // Method 1: Try FormSubmit (simple and reliable)
+                const response = await fetch('https://formsubmit.co/nikishsubedi1@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        subject: `TechConnect Nepal Contact: ${subject}`,
+                        message: message,
+                        _subject: `TechConnect Nepal Contact: ${subject}`,
+                        _captcha: 'false',
+                        _template: 'table',
+                        _replyto: email
+                    })
+                });
+
+                if (response.ok) {
+                    showNotification(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you soon.`, 'success', 6000);
+                    this.reset(); // Clear form
+                    return;
+                }
+            } catch (error) {
+                console.log('FormSubmit failed:', error);
+            }
+
+            try {
+                // Method 2: Try backend PHP email if available
+                const response = await fetch('send_email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    showNotification(`Thank you, ${name}! Your message has been sent successfully.`, 'success');
+                    this.reset();
+                    return;
+                }
+            } catch (error) {
+                console.log('Backend email failed:', error);
+            }
+
+            // Method 3: Enhanced mailto fallback with better user experience
+            const emailBody = encodeURIComponent(`
+Dear TechConnect Nepal Team,
+
+Name: ${name}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+This message was sent from the TechConnect Nepal contact form.
+Website: ${window.location.href}
+Timestamp: ${new Date().toLocaleString()}
+            `);
+            
+            const mailtoLink = `mailto:nikishsubedi1@gmail.com?subject=${encodeURIComponent('TechConnect Nepal Contact: ' + subject)}&body=${emailBody}`;
+            
+            try {
+                window.open(mailtoLink, '_self');
+                showNotification('Email client opened! Please send the pre-filled message to complete your inquiry.', 'info', 8000);
+                this.reset(); // Clear form after opening email client
+            } catch (mailtoError) {
+                showNotification('Please email us manually at: nikishsubedi1@gmail.com', 'info', 10000);
+            }
+            
+            // Reset button state
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    }
+
     // Initial Page Load View
     hideAllSections(); // Hide all sections initially
     if(paymentSection) paymentSection.classList.add('hidden'); // Ensure payment section is hidden
-    showHomeOrProducts(); // Show product listing and sidebar
-    if(navLinks.products) setActiveNavLink(navLinks.products); // Set Products as active nav link by default
+    showHomeSection(); // Show home section by default
+    if(navLinks.home) setActiveNavLink(navLinks.home); // Set Home as active nav link by default
+    
+    // Initialize cart badge
+    updateCartBadge();
+    
+    // Show initial loading complete notification
+    setTimeout(() => {
+        showNotification('TechConnect Nepal is ready! Browse our latest laptops.', 'success', 3000);
+    }, 500);
 });
