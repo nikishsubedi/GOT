@@ -1,0 +1,448 @@
+:root {
+    --primary-color: #007bff;
+    --primary-color-darker: #0056b3;
+    --primary-color-lighter: #cce5ff;
+    --secondary-color: #6c757d;
+    --secondary-color-darker: #545b62;
+    --danger-color: #dc3545;
+    --danger-color-darker: #c82333;
+    --success-color: #28a745;
+    --success-color-darker: #1e7e34;
+    --light-bg: #f8f9fa;
+    --dark-text: #343a40;
+    --light-text: #fff;
+    --border-color: #dee2e6;
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --box-shadow-lg: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+    --border-radius: 0.3rem;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* General body styling */
+body {
+    font-family: var(--font-family-sans-serif);
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Slightly different light background */
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+/* Header and Navigation */
+header {
+    background-color: var(--dark-text);
+    color: var(--light-text);
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: var(--box-shadow-lg);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.25rem; /* Larger H1 */
+    font-weight: 600;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px; /* Increased spacing */
+}
+
+header nav ul li a {
+    color: var(--light-text);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+}
+
+header nav ul li a.active-nav {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    font-weight: 500;
+}
+
+
+/* Main Content Area */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1.5rem; /* Increased margin */
+    gap: 1.5rem;    /* Increased gap */
+}
+
+/* Common section styling */
+section {
+    background-color: #fff;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 1.5rem; /* Ensure consistent bottom margin */
+}
+
+section h2 {
+    font-size: 1.75rem;
+    color: var(--dark-text);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--primary-color-lighter);
+}
+
+#product-listing {
+    flex: 3;
+    min-width: 300px;
+}
+
+#sidebar {
+    flex: 1;
+    min-width: 220px; /* Slightly increased min-width */
+}
+
+#sidebar h3 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+#sidebar > div { /* Price filter and search bar containers */
+    background-color: var(--light-bg);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+#sidebar > div:last-child {
+    margin-bottom: 0;
+}
+
+
+/* General Button Styling */
+button, .btn { /* Added .btn class for flexibility */
+    display: inline-block;
+    font-weight: 400;
+    color: var(--light-text);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 0.5rem 1rem; /* Standardized padding */
+    font-size: 0.95rem; /* Standardized font size */
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin: 0.25rem 0; /* Basic margin for spacing */
+}
+
+button:hover, .btn:hover {
+    background-color: var(--secondary-color-darker);
+    border-color: var(--secondary-color-darker);
+}
+
+button:focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); /* Focus shadow for secondary */
+}
+
+button:active, .btn:active {
+    transform: translateY(1px); /* Slight press effect */
+}
+
+/* Primary Button (Add to Cart, Checkout, Confirm, Apply, Search) */
+.btn-primary,
+.add-to-cart-btn,
+#checkout-btn,
+#confirm-payment-btn,
+#apply-price-filter-btn,
+#search-btn {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--light-text);
+}
+
+.btn-primary:hover,
+.add-to-cart-btn:hover,
+#checkout-btn:hover,
+#confirm-payment-btn:hover,
+#apply-price-filter-btn:hover,
+#search-btn:hover {
+    background-color: var(--primary-color-darker);
+    border-color: var(--primary-color-darker);
+}
+
+.btn-primary:focus,
+.add-to-cart-btn:focus,
+#checkout-btn:focus,
+#confirm-payment-btn:focus,
+#apply-price-filter-btn:focus,
+#search-btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+/* Danger Button (Remove) */
+.btn-danger,
+.remove-from-cart-btn {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+    color: var(--light-text);
+}
+.btn-danger:hover,
+.remove-from-cart-btn:hover {
+    background-color: var(--danger-color-darker);
+    border-color: var(--danger-color-darker);
+}
+.btn-danger:focus,
+.remove-from-cart-btn:focus {
+     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+/* Success Button (already used in payment section, ensure it inherits base) */
+#payment-section #confirm-payment-btn {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+#payment-section #confirm-payment-btn:hover {
+    background-color: var(--success-color-darker);
+    border-color: var(--success-color-darker);
+}
+#payment-section #confirm-payment-btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+
+/* Forms Styling */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea {
+    display: block;
+    width: calc(100% - 1.2em); /* Adjust for padding */
+    padding: 0.5rem 0.6rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--dark-text);
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-bottom: 0.75rem; /* Spacing for form elements */
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    color: var(--dark-text);
+    background-color: #fff;
+    border-color: var(--primary-color-lighter);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#contact-form div {
+    margin-bottom: 1rem;
+}
+#contact-form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+
+/* Product Grid and Item styling */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); /* Slightly smaller min for more items */
+    gap: 1.5rem; /* Increased gap */
+}
+
+.product-item {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    transform: translateY(-5px) scale(1.01); /* Subtle lift and scale */
+    box-shadow: var(--box-shadow-lg);
+}
+
+.product-item img {
+    width: 100%;
+    max-height: 160px; /* Slightly increased */
+    object-fit: contain;
+    margin-bottom: 0.75rem;
+    border-radius: var(--border-radius); /* Rounded images */
+}
+
+.product-item h3 {
+    font-size: 1.15rem; /* Slightly adjusted */
+    margin: 0.5rem 0;
+    color: var(--dark-text);
+}
+
+.product-item .price {
+    color: var(--primary-color);
+    font-weight: 600; /* Bolder price */
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.product-item .description {
+    font-size: 0.85rem; /* Slightly smaller for balance */
+    margin: 0.5rem 0;
+    flex-grow: 1;
+    color: #555;
+}
+
+.product-item .specifications {
+    font-size: 0.8rem;
+    margin: 0.75rem 0;
+    color: #666;
+}
+.product-item .specifications ul {
+    padding-left: 1rem; /* Reduced padding */
+    margin-top: 0.2rem;
+    list-style-type: disc; /* Ensure list style */
+}
+.product-item .specifications li {
+    margin-bottom: 0.2rem;
+}
+
+
+/* Shopping Cart, About Us, Contact Details, Payment Section common styling */
+#shopping-cart,
+#about-us,
+#contact-details,
+#payment-section {
+    width: 100%; /* These are already block level, this ensures they take full width if flex context changes */
+    /* Common section styling already applied */
+}
+
+/* Specifics for Cart */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.5rem; /* Increased padding */
+    border-bottom: 1px solid var(--border-color);
+}
+.cart-item:first-child {
+    border-top: 1px solid var(--border-color);
+}
+.cart-item:last-child {
+    border-bottom: none;
+}
+.cart-item span {
+    flex-basis: 40%; /* Adjust for better spacing */
+}
+.cart-item span:nth-child(2) { /* Price */
+    flex-basis: 20%;
+    text-align: right;
+    margin-right: 1rem;
+}
+.cart-item .remove-from-cart-btn {
+    flex-basis: 15%; /* Give button specific space */
+    padding: 0.4rem 0.8rem; /* Adjusted padding for remove button */
+}
+
+#cart-total h3 {
+    text-align: right;
+    margin-top: 1.5rem;
+    font-size: 1.5rem; /* More prominent total */
+    color: var(--primary-color);
+}
+
+#checkout-btn {
+    display: block; /* Already block */
+    width: auto; /* Auto width based on content and padding */
+    min-width: 200px; /* Minimum width for better clickability */
+    margin: 1.5rem auto 0.5rem; /* Center with more top margin */
+    padding: 0.75rem 1.5rem; /* Larger padding */
+}
+
+/* Payment Section Styling */
+#payment-section h2 { /* Already styled by common section h2 */
+    text-align: center; /* Ensure this is kept if common changes */
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Slightly reduced gap */
+    margin-bottom: 1.5rem;
+}
+
+.payment-methods div { /* Individual payment option container */
+    padding: 1rem; /* Increased padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--light-bg);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: flex; /* Align radio and label */
+    align-items: center;
+}
+
+.payment-methods div:hover {
+    background-color: #e9ecef; /* Slightly darker hover */
+    border-color: #adb5bd;
+}
+.payment-methods input[type="radio"] {
+    margin-right: 0.75rem;
+}
+.payment-methods label {
+    color: var(--dark-text);
+    font-weight: 500;
+}
+
+#payment-section #confirm-payment-btn {
+    margin-right: 0.5rem; /* Standardized margin */
+}
+#payment-section #back-to-cart-btn {
+    background-color: var(--secondary-color); /* Default secondary */
+    border-color: var(--secondary-color);
+}
+#payment-section #back-to-cart-btn:hover {
+    background-color: var(--secondary-color-darker);
+    border-color: var(--secondary-color-darker);
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--dark-text);
+    color: var(--light-text);
+    text-align: center;
+    padding: 1.5rem 0; /* Increased padding */
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important; /* Ensure it overrides other display properties if necessary */
+}
