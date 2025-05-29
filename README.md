@@ -23,12 +23,9 @@ A fully functional laptop e-commerce website built with vanilla HTML, CSS, and J
 - Order total calculation
 
 ### 📧 **Contact System**
-- Automatic email sending to nikishsubedi1@gmail.com
-- Multiple fallback methods:
-  1. Formsubmit.co (primary)
-  2. PHP backend (if available)
-  3. EmailJS (if configured)
-  4. Mailto fallback
+- Form submission using Basin (https://usebasin.com)
+- Sends emails directly to nikishsubedi1@gmail.com
+- Clean and reliable form handling
 - Smart notification system for user feedback
 
 ### 🗺️ **Dynamic Map**

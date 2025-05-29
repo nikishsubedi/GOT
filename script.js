@@ -600,141 +600,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, duration);
     }
 
-    // Enhanced email sending with notifications
-    async function sendContactEmail(name, email, subject, message) {
-        // Show loading message
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
-
-        try {
-            // Method 1: Try using a free form service (Formsubmit.co - no signup required)
-            const response = await fetch('https://formsubmit.co/nikishsubedi1@gmail.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    subject: `TechConnect Nepal Contact: ${subject}`,
-                    message: message,
-                    _subject: `TechConnect Nepal Contact: ${subject}`,
-                    _captcha: 'false',
-                    _template: 'table'
-                })
-            });
-
-            if (response.ok) {
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                
-                showNotification(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you soon.`, 'success');
-                return;
-            } else {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-        } catch (error) {
-            console.log('Formsubmit failed:', error);
-            showNotification('Email service temporarily unavailable. Trying alternative methods...', 'info', 3000);
-        }
-
-        try {
-            // Method 2: Try backend PHP email if available
-            const response = await fetch('send_email.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    subject: subject,
-                    message: message
-                })
-            });
-
-            const result = await response.json();
-            
-            if (response.ok && result.success) {
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-                
-                showNotification(`Thank you, ${name}! Your message has been sent successfully.`, 'success');
-                return;
-            }
-        } catch (error) {
-            console.log('Backend email failed:', error);
-        }
-
-        try {
-            // Method 3: Try EmailJS if configured
-            if (typeof emailjs !== 'undefined') {
-                const templateParams = {
-                    from_name: name,
-                    from_email: email,
-                    subject: subject,
-                    message: message,
-                    to_name: 'TechConnect Nepal',
-                    to_email: 'nikishsubedi1@gmail.com'
-                };
-
-                // Note: EmailJS requires service setup - this is a placeholder
-                // You would need to configure EmailJS with your service ID, template ID, and public key
-                console.log('EmailJS would send:', templateParams);
-            }
-        } catch (error) {
-            console.log('EmailJS failed:', error);
-        }
-
-        // Method 4: Enhanced mailto fallback with better user experience
-        enhancedMailtoFallback(name, email, subject, message);
-
-        // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-
-    // Enhanced mailto fallback with better UX
-    function enhancedMailtoFallback(name, email, subject, message) {
-        // Create comprehensive email body
-        const emailBody = encodeURIComponent(`
-Dear TechConnect Nepal Team,
-
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-
----
-This message was sent from the TechConnect Nepal contact form.
-Website: ${window.location.href}
-Timestamp: ${new Date().toLocaleString()}
-        `);
-        
-        const mailtoLink = `mailto:nikishsubedi1@gmail.com?subject=${encodeURIComponent('TechConnect Nepal Contact: ' + subject)}&body=${emailBody}`;
-        
-        // Try to open email client
-        try {
-            window.open(mailtoLink, '_self');
-            
-            // Show enhanced confirmation with instructions
-            setTimeout(() => {
-                showNotification(`Email client opened! Please send the pre-filled message to complete your inquiry.`, 'info', 8000);
-            }, 1000);
-            
-        } catch (error) {
-            // If mailto fails, show manual instructions
-            showNotification(`Please email us manually at: nikishsubedi1@gmail.com with subject "TechConnect Nepal Contact: ${subject}"`, 'info', 10000);
-        }
-    }
-
     // Add loading state management
     function showLoading() {
         const loader = document.createElement('div');
@@ -776,7 +641,7 @@ Timestamp: ${new Date().toLocaleString()}
         };
     }
 
-    // Contact Form Handler with Multiple Email Service Fallbacks
+    // Contact Form Handler with Basin Form Service
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
@@ -790,96 +655,30 @@ Timestamp: ${new Date().toLocaleString()}
             submitBtn.disabled = true;
             
             // Get form data
-            const name = this.querySelector('#contact-name').value;
-            const email = this.querySelector('#contact-email').value;
-            const subject = this.querySelector('#contact-subject').value;
-            const message = this.querySelector('#contact-message').value;
+            const formData = new FormData(this);
             
             try {
-                // Method 1: Try FormSubmit (simple and reliable)
-                const response = await fetch('https://formsubmit.co/nikishsubedi1@gmail.com', {
+                // Submit to Basin form endpoint
+                const response = await fetch('https://usebasin.com/f/5e6755407364', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        subject: `TechConnect Nepal Contact: ${subject}`,
-                        message: message,
-                        _subject: `TechConnect Nepal Contact: ${subject}`,
-                        _captcha: 'false',
-                        _template: 'table',
-                        _replyto: email
-                    })
+                    body: formData
                 });
 
                 if (response.ok) {
+                    const name = formData.get('name');
                     showNotification(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you soon.`, 'success', 6000);
                     this.reset(); // Clear form
-                    return;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
             } catch (error) {
-                console.log('FormSubmit failed:', error);
+                console.error('Basin form submission failed:', error);
+                showNotification('Failed to send message. Please try again or contact us directly at nikishsubedi1@gmail.com', 'error', 8000);
+            } finally {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
-
-            try {
-                // Method 2: Try backend PHP email if available
-                const response = await fetch('send_email.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        subject: subject,
-                        message: message
-                    })
-                });
-
-                const result = await response.json();
-                
-                if (response.ok && result.success) {
-                    showNotification(`Thank you, ${name}! Your message has been sent successfully.`, 'success');
-                    this.reset();
-                    return;
-                }
-            } catch (error) {
-                console.log('Backend email failed:', error);
-            }
-
-            // Method 3: Enhanced mailto fallback with better user experience
-            const emailBody = encodeURIComponent(`
-Dear TechConnect Nepal Team,
-
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-
----
-This message was sent from the TechConnect Nepal contact form.
-Website: ${window.location.href}
-Timestamp: ${new Date().toLocaleString()}
-            `);
-            
-            const mailtoLink = `mailto:nikishsubedi1@gmail.com?subject=${encodeURIComponent('TechConnect Nepal Contact: ' + subject)}&body=${emailBody}`;
-            
-            try {
-                window.open(mailtoLink, '_self');
-                showNotification('Email client opened! Please send the pre-filled message to complete your inquiry.', 'info', 8000);
-                this.reset(); // Clear form after opening email client
-            } catch (mailtoError) {
-                showNotification('Please email us manually at: nikishsubedi1@gmail.com', 'info', 10000);
-            }
-            
-            // Reset button state
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
         });
     }
 
