@@ -52,6 +52,15 @@ A fully functional laptop e-commerce website built with vanilla HTML, CSS, and J
 4. **Lenovo IdeaPad Slim 5** - NPR 85,000
 5. **Asus ROG Strix G15** - NPR 220,000
 6. **Acer Swift 3** - NPR 78,000
+7. **MacBook Air M2** - NPR 195,000
+8. **MSI Creator 15** - NPR 275,000
+9. **ThinkPad X1 Carbon** - NPR 210,000
+10. **HP Pavilion Gaming** - NPR 125,000
+11. **Surface Laptop 5** - NPR 185,000
+12. **Asus ZenBook 14** - NPR 95,000
+13. **Alienware m15 R7** - NPR 320,000
+14. **Lenovo Legion 5 Pro** - NPR 190,000
+15. **HP Envy 13** - NPR 110,000
 
 ## Setup Instructions
 

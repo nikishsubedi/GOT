@@ -136,6 +136,78 @@ document.addEventListener('DOMContentLoaded', () => {
             image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=300&fit=crop&auto=format",
             description: "Lightweight and portable for students.",
             specifications: { RAM: "8GB", Storage: "512GB SSD", Processor: "Intel Core i5" }
+        },
+        {
+            id: 7,
+            name: "MacBook Air M2",
+            price: 145000,
+            image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400&h=300&fit=crop&auto=format",
+            description: "Ultra-thin and efficient with Apple's M2 chip.",
+            specifications: { RAM: "8GB", Storage: "256GB SSD", Processor: "Apple M2", "Battery Life": "18 hours" }
+        },
+        {
+            id: 8,
+            name: "MSI Creator 15",
+            price: 275000,
+            image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=400&h=300&fit=crop&auto=format",
+            description: "Professional content creation powerhouse.",
+            specifications: { RAM: "32GB", Storage: "1TB SSD", Processor: "Intel Core i7", Graphics: "NVIDIA RTX 4060", Display: "4K OLED" }
+        },
+        {
+            id: 9,
+            name: "ThinkPad X1 Carbon",
+            price: 210000,
+            image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=400&h=300&fit=crop&auto=format",
+            description: "Business-grade reliability with enterprise security.",
+            specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "Intel Core i7", Weight: "1.13kg", Security: "Fingerprint Reader" }
+        },
+        {
+            id: 10,
+            name: "HP Pavilion Gaming",
+            price: 125000,
+            image: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=400&h=300&fit=crop&auto=format",
+            description: "Affordable gaming with solid performance.",
+            specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "AMD Ryzen 5", Graphics: "NVIDIA GTX 1650", Display: "15.6\" FHD" }
+        },
+        {
+            id: 11,
+            name: "Surface Laptop 5",
+            price: 185000,
+            image: "https://images.unsplash.com/photo-1542393545-10f5cde2c810?w=400&h=300&fit=crop&auto=format",
+            description: "Microsoft's premium laptop with touchscreen.",
+            specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "Intel Core i7", Display: "13.5\" PixelSense", Touch: "Yes" }
+        },
+        {
+            id: 12,
+            name: "Asus ZenBook 14",
+            price: 95000,
+            image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop&auto=format",
+            description: "Stylish ultrabook for professionals on the go.",
+            specifications: { RAM: "8GB", Storage: "512GB SSD", Processor: "Intel Core i5", Weight: "1.39kg", "Screen Pad": "Yes" }
+        },
+        {
+            id: 13,
+            name: "Alienware m15 R7",
+            price: 320000,
+            image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop&auto=format",
+            description: "Premium gaming laptop with alien design.",
+            specifications: { RAM: "32GB", Storage: "1TB SSD", Processor: "Intel Core i9", Graphics: "NVIDIA RTX 4070", Display: "15.6\" QHD 240Hz" }
+        },
+        {
+            id: 14,
+            name: "Lenovo Legion 5 Pro",
+            price: 190000,
+            image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop&auto=format",
+            description: "Mid-range gaming laptop with excellent value.",
+            specifications: { RAM: "16GB", Storage: "1TB SSD", Processor: "AMD Ryzen 7", Graphics: "NVIDIA RTX 3060", Display: "16\" WQXGA 165Hz" }
+        },
+        {
+            id: 15,
+            name: "HP Envy 13",
+            price: 110000,
+            image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=300&fit=crop&auto=format",
+            description: "Premium ultrabook with all-day battery life.",
+            specifications: { RAM: "16GB", Storage: "512GB SSD", Processor: "Intel Core i7", Weight: "1.3kg", "Battery Life": "17 hours" }
         }
     ];
 
